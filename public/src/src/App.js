@@ -1,4 +1,3 @@
-// src/App.js
 import React from 'react';
 import ResourcePlanner from './components/ResourcePlanner';
 import './App.css';
