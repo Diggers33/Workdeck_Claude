@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc:*)",
+      "Bash(npx typescript:*)",
+      "Bash(node node_modules/typescript/bin/tsc:*)",
+      "Bash(npm run build:*)",
+      "Bash(dir /b \"C:\\Users\\cdigb\\Downloads\\Workdeck\")",
+      "Bash(dir \"C:\\Users\\cdigb\\Downloads\\Workdeck\\Desktop\")",
+      "Bash(cat:*)",
+      "Bash(npm install:*)",
+      "WebFetch(domain:adazzle.github.io)",
+      "WebSearch",
+      "WebFetch(domain:github.com)"
+    ]
+  }
+}

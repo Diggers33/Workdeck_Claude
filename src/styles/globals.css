@@ -1,0 +1,457 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Font Family */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Primary Colors */
+  --primary-blue: #0066FF;
+  --primary-blue-hover: #0052CC;
+  --primary-blue-light: #E6F0FF;
+  --primary-blue-dark: #003D99;
+  
+  /* Semantic Colors */
+  --success-green: #10B981;
+  --warning-amber: #F59E0B;
+  --error-red: #EF4444;
+  --info-blue: #3B82F6;
+  
+  /* Neutral Grays */
+  --gray-50: #F9FAFB;
+  --gray-100: #F3F4F6;
+  --gray-200: #E5E7EB;
+  --gray-300: #D1D5DB;
+  --gray-400: #9CA3AF;
+  --gray-500: #6B7280;
+  --gray-600: #4B5563;
+  --gray-700: #374151;
+  --gray-800: #1F2937;
+  --gray-900: #111827;
+  
+  /* Special Colors */
+  --ai-purple: #8B5CF6;
+  
+  /* Status Colors */
+  --status-draft: #6B7280;
+  --status-in-progress: #3B82F6;
+  --status-completed: #10B981;
+  --status-approved: #10B981;
+  --status-rejected: #EF4444;
+  --status-pending: #F59E0B;
+  --status-overdue: #DC2626;
+  
+  /* Workdeck Design System Variables */
+  --background: #ffffff;
+  --foreground: var(--gray-900);
+  --card: #ffffff;
+  --card-foreground: var(--gray-900);
+  --popover: #ffffff;
+  --popover-foreground: var(--gray-900);
+  --primary: var(--primary-blue);
+  --primary-foreground: #ffffff;
+  --secondary: var(--gray-100);
+  --secondary-foreground: var(--gray-700);
+  --muted: var(--gray-100);
+  --muted-foreground: var(--gray-500);
+  --accent: var(--gray-100);
+  --accent-foreground: var(--gray-900);
+  --destructive: var(--error-red);
+  --destructive-foreground: #ffffff;
+  --border: var(--gray-200);
+  --input: var(--gray-200);
+  --input-background: #ffffff;
+  --ring: var(--primary-blue);
+  
+  /* Spacing System (Base unit: 4px) */
+  --spacing-0: 0px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 12px;
+  --radius-circle: 50%;
+  
+  /* Shadows */
+  --shadow-level-0: none;
+  --shadow-level-1: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-level-2: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-level-3: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --shadow-level-4: 0 20px 40px rgba(0, 0, 0, 0.2);
+  --shadow-primary: 0 4px 12px rgba(0, 102, 255, 0.2);
+  
+  /* Animation Durations */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  
+  /* Animation Easing */
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Chart Colors */
+  --chart-1: var(--primary-blue);
+  --chart-2: var(--success-green);
+  --chart-3: var(--ai-purple);
+  --chart-4: var(--warning-amber);
+  --chart-5: var(--info-blue);
+  
+  /* Sidebar */
+  --sidebar: var(--gray-50);
+  --sidebar-foreground: var(--gray-700);
+  --sidebar-primary: var(--primary-blue);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--gray-100);
+  --sidebar-accent-foreground: var(--gray-900);
+  --sidebar-border: var(--gray-200);
+  --sidebar-ring: var(--primary-blue);
+}
+
+.dark {
+  --background: var(--gray-900);
+  --foreground: var(--gray-50);
+  --card: var(--gray-800);
+  --card-foreground: var(--gray-50);
+  --popover: var(--gray-800);
+  --popover-foreground: var(--gray-50);
+  --primary: var(--primary-blue);
+  --primary-foreground: #ffffff;
+  --secondary: var(--gray-800);
+  --secondary-foreground: var(--gray-100);
+  --muted: var(--gray-800);
+  --muted-foreground: var(--gray-400);
+  --accent: var(--gray-800);
+  --accent-foreground: var(--gray-50);
+  --destructive: var(--error-red);
+  --destructive-foreground: #ffffff;
+  --border: var(--gray-700);
+  --input: var(--gray-700);
+  --input-background: var(--gray-800);
+  --ring: var(--primary-blue);
+  --sidebar: var(--gray-900);
+  --sidebar-foreground: var(--gray-100);
+  --sidebar-primary: var(--primary-blue);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--gray-800);
+  --sidebar-accent-foreground: var(--gray-50);
+  --sidebar-border: var(--gray-800);
+  --sidebar-ring: var(--primary-blue);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  
+  /* Override Tailwind blue scale to match Workdeck primary blue */
+  --color-blue-50: #EBF2FF;
+  --color-blue-100: #CCE0FF;
+  --color-blue-200: #99C2FF;
+  --color-blue-300: #66A3FF;
+  --color-blue-400: #3385FF;
+  --color-blue-500: #0066FF;
+  --color-blue-600: #0066FF;
+  --color-blue-700: #0052CC;
+  --color-blue-800: #003D99;
+  --color-blue-900: #002966;
+
+  /* Workdeck Custom Colors */
+  --color-primary-blue: var(--primary-blue);
+  --color-primary-blue-hover: var(--primary-blue-hover);
+  --color-primary-blue-light: var(--primary-blue-light);
+  --color-primary-blue-dark: var(--primary-blue-dark);
+  --color-success-green: var(--success-green);
+  --color-warning-amber: var(--warning-amber);
+  --color-error-red: var(--error-red);
+  --color-info-blue: var(--info-blue);
+  --color-ai-purple: var(--ai-purple);
+  --color-gray-50: var(--gray-50);
+  --color-gray-100: var(--gray-100);
+  --color-gray-200: var(--gray-200);
+  --color-gray-300: var(--gray-300);
+  --color-gray-400: var(--gray-400);
+  --color-gray-500: var(--gray-500);
+  --color-gray-600: var(--gray-600);
+  --color-gray-700: var(--gray-700);
+  --color-gray-800: var(--gray-800);
+  --color-gray-900: var(--gray-900);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-family);
+  }
+}
+
+/**
+ * Workdeck Typography System
+ * Display: 48px/Bold/LH 1.1/LS -0.02em
+ * H1: 32px/Bold/LH 1.2/LS -0.01em
+ * H2: 24px/Semibold/LH 1.3/LS -0.01em
+ * H3: 20px/Semibold/LH 1.4/LS 0
+ * H4: 18px/Medium/LH 1.4/LS 0
+ * Body Large: 18px/Regular/LH 1.6/LS 0
+ * Body: 16px/Regular/LH 1.5/LS 0
+ * Body Small: 14px/Regular/LH 1.5/LS 0
+ * Caption: 12px/Medium/LH 1.4/LS 0.01em
+ * Overline: 11px/Semibold/LH 1.4/LS 0.08em/Uppercase
+ */
+@layer base {
+  :where(:not(:has([class*=' text-']), :not(:has([class^='text-'])))) {
+    h1 {
+      font-size: 32px;
+      font-weight: var(--font-weight-bold);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--gray-900);
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: var(--font-weight-semibold);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      color: var(--gray-800);
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: var(--font-weight-semibold);
+      line-height: 1.4;
+      letter-spacing: 0;
+      color: var(--gray-800);
+    }
+
+    h4 {
+      font-size: 18px;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.4;
+      letter-spacing: 0;
+      color: var(--gray-700);
+    }
+
+    p {
+      font-size: 16px;
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+      letter-spacing: 0;
+      color: var(--gray-600);
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+      color: var(--gray-700);
+    }
+
+    button {
+      font-size: 16px;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    input, textarea, select {
+      font-size: 16px;
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+  }
+}
+
+html {
+  font-size: 16px;
+}
+
+/* Utility classes for Workdeck design system */
+.text-display {
+  font-size: 48px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.text-h1 {
+  font-size: 32px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.text-h2 {
+  font-size: 24px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.text-h3 {
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+}
+
+.text-h4 {
+  font-size: 18px;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.4;
+}
+
+.text-body-large {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.text-body {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.text-body-small {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.text-caption {
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.text-overline {
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Native form element normalization — match platform border style */
+select,
+input[type="date"],
+input[type="time"],
+input[type="number"] {
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+  font-family: var(--font-family);
+  color: #111827;
+  background-color: white;
+  outline: none;
+  transition: border-color 150ms ease;
+}
+select:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="number"]:focus {
+  border-color: #0066FF;
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+}
+
+/* Workdeck custom scrollbars */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.4);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.7);
+}
+
+/* Firefox scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+.custom-scrollbar:hover {
+  scrollbar-color: rgba(156, 163, 175, 0.4) transparent;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Blocked tooltip hover effect */
+[style*="blocked-tooltip"]:hover .blocked-tooltip,
+div:hover > .blocked-tooltip {
+  opacity: 1 !important;
+}
