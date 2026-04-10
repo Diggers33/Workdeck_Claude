@@ -1399,6 +1399,8 @@ export function ResourcePlanner() {
   const [gridMonthsToShow, setGridMonthsToShow] = useState(12);
   const [showProjectAutocomplete, setShowProjectAutocomplete] = useState(false);
   const [autocompleteFilter, setAutocompleteFilter] = useState('');
+  const [addTargetPersonId, setAddTargetPersonId] = useState<string | null>(null);
+  const [pendingNewProjectRows, setPendingNewProjectRows] = useState<Array<{ personId: string; projectId: string; projectName: string; color: string }>>([]);
 
   // Lazy loading state for gantt-plus data
   const [projectGanttCache, setProjectGanttCache] = useState<Record<string, any[]>>({});
@@ -5549,6 +5551,71 @@ export function ResourcePlanner() {
                         </React.Fragment>
                       ))}
 
+                      {/* Pending new project rows (person view: added but not yet saved) */}
+                      {gridHierarchy === 'person' && pendingNewProjectRows
+                        .filter(p => p.personId === row.id)
+                        .map(pending => (
+                          <tr key={`pending:${pending.personId}:${pending.projectId}`} style={{ backgroundColor: '#FFF9F0' }}>
+                            <td style={{
+                              padding: '6px 12px 6px 32px',
+                              position: 'sticky',
+                              left: 0,
+                              backgroundColor: '#FFF9F0',
+                              zIndex: 10,
+                              borderRight: '2px solid #E5E7EB',
+                              borderBottom: '1px solid #E5E7EB',
+                              whiteSpace: 'nowrap'
+                            }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <div style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: pending.color || '#6B7280', flexShrink: 0 }} />
+                                <span style={{ fontSize: '12px', color: '#374151' }}>{pending.projectName}</span>
+                                <span style={{ fontSize: '10px', color: '#F59E0B', backgroundColor: '#FEF3C7', padding: '1px 4px', borderRadius: '3px' }}>new</span>
+                              </div>
+                            </td>
+                            {gridPeriods.map((period, idx) => {
+                              const cellContext: CellContext = {
+                                rowId: `${pending.personId}:${pending.projectId}`,
+                                period: period.key,
+                                periodIdx: idx,
+                                taskId: '',
+                                taskName: '',
+                                projectId: pending.projectId,
+                                personId: pending.personId,
+                                personName: row.name,
+                                currentValue: 0
+                              };
+                              return (
+                                <td
+                                  key={period.key}
+                                  style={{
+                                    padding: '2px',
+                                    textAlign: 'center',
+                                    borderBottom: '1px solid #E5E7EB',
+                                    borderLeft: idx === 0 || (gridGranularity === 'monthly' && period.startDate.getMonth() === 0) ? '2px solid #D1D5DB' : '1px solid #F3F4F6',
+                                    backgroundColor: '#FFF9F0'
+                                  }}
+                                >
+                                  <GridCell
+                                    context={cellContext}
+                                    displayValue="—"
+                                    isUnscheduled={false}
+                                    hasPending={false}
+                                    editable={true}
+                                    draggable={false}
+                                    showFillHandle={false}
+                                    onSave={handleGridCellSave}
+                                    onDragStart={handleGridCellDragStart}
+                                    onDragEnd={handleDragEnd}
+                                    onFillHandleMouseDown={handleGridCellFillMouseDown}
+                                  />
+                                </td>
+                              );
+                            })}
+                            <td style={{ borderBottom: '1px solid #E5E7EB', borderLeft: '2px solid #D1D5DB', backgroundColor: '#FFF9F0' }} />
+                          </tr>
+                        ))
+                      }
+
                       {/* Add New Row (when expanded) */}
                       {expandedRows.has(row.id) && (
                         <tr style={{ backgroundColor: '#F9FAFB' }}>
@@ -5564,7 +5631,7 @@ export function ResourcePlanner() {
                           }}>
                             <button
                               onClick={() => {
-                                // Start adding a new allocation
+                                setAddTargetPersonId(row.id);
                                 setShowProjectAutocomplete(true);
                                 setAutocompleteFilter('');
                               }}
@@ -5633,6 +5700,114 @@ export function ResourcePlanner() {
       {tooltip && <Tooltip assignment={tooltip.assignment} position={tooltip.position} displayUnit={displayUnit} />}
       {editingCapacity && <CapacityEditPopover member={editingCapacity.member} position={editingCapacity.position} onSave={updateMemberCapacity} onClose={closeEditingCapacity} />}
       {editingLeave && <LeaveModal member={editingLeave} onClose={closeEditingLeave} onSave={updateMemberLeave} />}
+
+      {/* Add Project to Person modal (person view) */}
+      {showProjectAutocomplete && addTargetPersonId && (() => {
+        const targetRow = gridData.find((r: any) => r.id === addTargetPersonId);
+        const existingProjectIds = new Set([
+          ...(targetRow?.children?.map((c: any) => c.projectId) || []),
+          ...pendingNewProjectRows.filter(p => p.personId === addTargetPersonId).map(p => p.projectId)
+        ]);
+        const filteredProjects = sortedProjects.filter((p: any) =>
+          !existingProjectIds.has(p.id) &&
+          p.name.toLowerCase().includes(autocompleteFilter.toLowerCase())
+        );
+        return (
+          <div
+            style={{
+              position: 'fixed', inset: 0, zIndex: 1000,
+              backgroundColor: 'rgba(0,0,0,0.3)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center'
+            }}
+            onClick={() => { setShowProjectAutocomplete(false); setAddTargetPersonId(null); }}
+          >
+            <div
+              style={{
+                backgroundColor: '#fff',
+                borderRadius: '8px',
+                boxShadow: '0 10px 25px rgba(0,0,0,0.15)',
+                width: '360px',
+                maxHeight: '480px',
+                display: 'flex',
+                flexDirection: 'column',
+                overflow: 'hidden'
+              }}
+              onClick={e => e.stopPropagation()}
+            >
+              <div style={{ padding: '16px', borderBottom: '1px solid #E5E7EB' }}>
+                <div style={{ fontWeight: 600, fontSize: '14px', color: '#111827', marginBottom: '8px' }}>
+                  Add project to {targetRow?.name}
+                </div>
+                <input
+                  autoFocus
+                  value={autocompleteFilter}
+                  onChange={e => setAutocompleteFilter(e.target.value)}
+                  placeholder="Search projects..."
+                  style={{
+                    width: '100%',
+                    padding: '8px 10px',
+                    border: '1px solid #D1D5DB',
+                    borderRadius: '6px',
+                    fontSize: '13px',
+                    outline: 'none',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+              <div style={{ overflowY: 'auto', flex: 1 }}>
+                {filteredProjects.length === 0 ? (
+                  <div style={{ padding: '24px', textAlign: 'center', color: '#9CA3AF', fontSize: '13px' }}>
+                    {autocompleteFilter ? 'No projects match your search' : 'All projects already added'}
+                  </div>
+                ) : (
+                  filteredProjects.map((project: any) => (
+                    <button
+                      key={project.id}
+                      onClick={() => {
+                        setPendingNewProjectRows(prev => [...prev, {
+                          personId: addTargetPersonId!,
+                          projectId: project.id,
+                          projectName: project.name,
+                          color: project.color
+                        }]);
+                        setExpandedRows(prev => new Set(prev).add(addTargetPersonId!));
+                        setShowProjectAutocomplete(false);
+                        setAddTargetPersonId(null);
+                        setAutocompleteFilter('');
+                      }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        width: '100%',
+                        padding: '10px 16px',
+                        border: 'none',
+                        backgroundColor: 'transparent',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        borderBottom: '1px solid #F3F4F6'
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#F9FAFB')}
+                      onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
+                    >
+                      <div style={{ width: '10px', height: '10px', borderRadius: '2px', backgroundColor: project.color || '#6B7280', flexShrink: 0 }} />
+                      <span style={{ fontSize: '13px', color: '#111827' }}>{project.name}</span>
+                    </button>
+                  ))
+                )}
+              </div>
+              <div style={{ padding: '12px 16px', borderTop: '1px solid #E5E7EB', display: 'flex', justifyContent: 'flex-end' }}>
+                <button
+                  onClick={() => { setShowProjectAutocomplete(false); setAddTargetPersonId(null); }}
+                  style={{ padding: '6px 14px', border: '1px solid #D1D5DB', borderRadius: '6px', backgroundColor: '#fff', fontSize: '13px', cursor: 'pointer', color: '#374151' }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }

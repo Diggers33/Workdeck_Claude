@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Plus, ChevronDown, MoreVertical, ArrowRight, Loader2 } from 'lucide-react';
+import { Search, Plus, ChevronDown, MoreVertical, ArrowRight, Loader2, Upload } from 'lucide-react';
 import { ProjectSummary } from '../services/dashboard-api';
 import { useProjectsSummary, useProjectScopeCounts } from '../hooks/useApiQueries';
 import { ProjectWizardDialog } from './ProjectWizardDialog';
+import { GanttImportModal } from './GanttImportModal';
 
 interface Project {
   id: string;
@@ -49,6 +50,7 @@ export function ProjectTriageBoard({ onOpenGantt }: { onOpenGantt?: (projectId: 
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [hoveredAlert, setHoveredAlert] = useState<number | null>(null);
   const [showWizard, setShowWizard] = useState(false);
+  const [showGanttImport, setShowGanttImport] = useState(false);
   const [scopeDropdownOpen, setScopeDropdownOpen] = useState(false);
   const [selectedScope, setSelectedScope] = useState('Mine');
   const [searchQuery, setSearchQuery] = useState('');
@@ -407,6 +409,29 @@ export function ProjectTriageBoard({ onOpenGantt }: { onOpenGantt?: (projectId: 
               </>
             )}
           </div>
+
+          {/* Import Gantt Button */}
+          <button
+            onClick={() => setShowGanttImport(true)}
+            style={{
+              height: '40px',
+              padding: '0 16px',
+              background: 'white',
+              color: '#374151',
+              fontSize: '14px',
+              fontWeight: 500,
+              borderRadius: '8px',
+              border: '1px solid #D1D5DB',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px'
+            }}
+          >
+            <Upload style={{ width: '15px', height: '15px' }} />
+            Import Gantt
+          </button>
 
           {/* New Project Button */}
           <button
@@ -916,6 +941,13 @@ export function ProjectTriageBoard({ onOpenGantt }: { onOpenGantt?: (projectId: 
         <ProjectWizardDialog
           mode="create"
           onClose={() => setShowWizard(false)}
+        />
+      )}
+
+      {showGanttImport && (
+        <GanttImportModal
+          onClose={() => setShowGanttImport(false)}
+          onProjectCreated={() => setShowGanttImport(false)}
         />
       )}
     </div>
